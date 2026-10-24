@@ -3063,8 +3063,380 @@ const translations = {
   }
 };
 
+// ============ Play Store wording ============
+// The Play Store version shows neutral, non-medical wording for a few features
+// (Google Play's health policy). The website keeps its original wording. Only the
+// on-screen text changes — stored data is never touched.
+let _isPlayCache = null;
+function isPlayVersion() {
+  if (_isPlayCache === null) _isPlayCache = isAndroidApp();
+  return _isPlayCache;
+}
+const PLAY_UPDATES = {
+ "en": {
+  "logApptButton": "Add an appointment",
+  "medicalApptLabel": "Appointment",
+  "medicalApptSub": "Something scheduled for this date",
+  "apptDetailsLabel": "Appointment details",
+  "historyAppointmentLabel": "Appointment",
+  "rptUpcomingLabel": "Upcoming appointments",
+  "surgeriesTitle": "Important history",
+  "addSurgeryBtn": "+ Add important history",
+  "addSurgeryTitle": "Add important history",
+  "timelineSurgeriesLabel": "Important history",
+  "reportSurgicalHistoryLabel": "Important history",
+  "historyEntryLabel": "Important history",
+  "noSurgeriesNote": "Nothing in your important history yet.",
+  "timelineNoSurgeries": "Nothing added yet — add entries in the Profile tab's Important history section.",
+  "addMenopauseChip": "+ Add your own",
+  "newMenopausePlaceholder": "Type your own",
+  "addMenopauseBtn": "Add"
+ },
+ "es": {
+  "logApptButton": "Añadir una cita",
+  "medicalApptLabel": "Cita",
+  "medicalApptSub": "Algo programado para esta fecha",
+  "apptDetailsLabel": "Detalles de la cita",
+  "historyAppointmentLabel": "Cita",
+  "rptUpcomingLabel": "Próximas citas",
+  "surgeriesTitle": "Historial importante",
+  "addSurgeryBtn": "+ Añadir historial importante",
+  "addSurgeryTitle": "Añadir historial importante",
+  "timelineSurgeriesLabel": "Historial importante",
+  "reportSurgicalHistoryLabel": "Historial importante",
+  "historyEntryLabel": "Historial importante",
+  "noSurgeriesNote": "Aún no hay nada en tu historial importante.",
+  "timelineNoSurgeries": "Aún no hay nada — añade entradas en la sección Historial importante de la pestaña Perfil.",
+  "addMenopauseChip": "+ Añadir el tuyo",
+  "newMenopausePlaceholder": "Escribe el tuyo",
+  "addMenopauseBtn": "Añadir"
+ },
+ "fr": {
+  "logApptButton": "Ajouter un rendez-vous",
+  "medicalApptLabel": "Rendez-vous",
+  "medicalApptSub": "Quelque chose de prévu à cette date",
+  "apptDetailsLabel": "Détails du rendez-vous",
+  "historyAppointmentLabel": "Rendez-vous",
+  "rptUpcomingLabel": "Rendez-vous à venir",
+  "surgeriesTitle": "Historique important",
+  "addSurgeryBtn": "+ Ajouter à l'historique important",
+  "addSurgeryTitle": "Ajouter à l'historique important",
+  "timelineSurgeriesLabel": "Historique important",
+  "reportSurgicalHistoryLabel": "Historique important",
+  "historyEntryLabel": "Historique important",
+  "noSurgeriesNote": "Rien dans votre historique important pour l'instant.",
+  "timelineNoSurgeries": "Rien d'ajouté pour l'instant — ajoutez des entrées dans la section Historique important de l'onglet Profil.",
+  "addMenopauseChip": "+ Ajouter le vôtre",
+  "newMenopausePlaceholder": "Écrivez le vôtre",
+  "addMenopauseBtn": "Ajouter"
+ },
+ "de": {
+  "logApptButton": "Termin hinzufügen",
+  "medicalApptLabel": "Termin",
+  "medicalApptSub": "Etwas, das für dieses Datum geplant ist",
+  "apptDetailsLabel": "Termindetails",
+  "historyAppointmentLabel": "Termin",
+  "rptUpcomingLabel": "Anstehende Termine",
+  "surgeriesTitle": "Wichtiger Verlauf",
+  "addSurgeryBtn": "+ Wichtigen Verlauf hinzufügen",
+  "addSurgeryTitle": "Wichtigen Verlauf hinzufügen",
+  "timelineSurgeriesLabel": "Wichtiger Verlauf",
+  "reportSurgicalHistoryLabel": "Wichtiger Verlauf",
+  "historyEntryLabel": "Wichtiger Verlauf",
+  "noSurgeriesNote": "Noch nichts in deinem wichtigen Verlauf.",
+  "timelineNoSurgeries": "Noch nichts hinzugefügt — füge Einträge im Bereich Wichtiger Verlauf im Profil-Tab hinzu.",
+  "addMenopauseChip": "+ Eigenen hinzufügen",
+  "newMenopausePlaceholder": "Eigenen eingeben",
+  "addMenopauseBtn": "Hinzufügen"
+ }
+};
+const PLAY_OVERRIDES = {
+ "en": {
+  "privacyNote": "Endo Things values your trust above all else. Every logged cycle date, entry, and note is stored 100% locally on this device and is never uploaded, tracked, or sold to third parties.",
+  "calendarSubtitle": "Your gentle space for your day by day.",
+  "logApptButton": "Add plans",
+  "medicalApptLabel": "Plans",
+  "medicalApptSub": "Something on the calendar for this date",
+  "apptDetailsLabel": "Plan details",
+  "scheduledSurgeryLabel": "Big day",
+  "scheduledSurgerySub": "Flag an important upcoming date",
+  "surgeryDetailsLabel": "Details",
+  "surgeryPlaceholder": "e.g. What's happening, 7am",
+  "allergiesNote": "Shown on your summary so it's always on hand.",
+  "endoStageLabel": "Stage (optional)",
+  "endoStageNote": "Just for your own reference.",
+  "myConditionsLabel": "What you track",
+  "surgeriesTitle": "History",
+  "surgeriesSubtitle": "Keep a record of important past events and how you felt after.",
+  "addSurgeryBtn": "+ Add to history",
+  "noSurgeriesNote": "Nothing in your history yet.",
+  "healingLogLabel": "How you felt after",
+  "noRecoveryNotesNote": "No notes yet.",
+  "addRecoveryNoteBtn": "Add note",
+  "recoveryNoteAddedToast": "Note added",
+  "surgeryRemovedToast": "Entry removed",
+  "deleteSurgeryConfirm": "Delete this entry? This can't be undone.",
+  "editSurgeryTitle": "Edit entry",
+  "addSurgeryTitle": "Add to history",
+  "surgeryNotesPlaceholder": "What happened, anything worth remembering",
+  "saveSurgeryBtn": "Save",
+  "surgeryUpdatedToast": "Entry updated",
+  "surgerySavedToast": "Entry saved",
+  "historyEntryLabel": "History entry",
+  "doctorVisitSummaryLabel": "Quick summary",
+  "doctorVisitSummaryNote": "A plain summary of your last 90 days.",
+  "plannerDescription": "A 14-page printable/digital companion planner — weekly trackers and more.",
+  "featureDoctorReportBold": "Printable summary",
+  "featureDoctorReportDesc": "— a clean, printable summary of your journal, cycle, and history.",
+  "doctorReportCardLabel": "Printable summary",
+  "doctorReportCardDesc": "A clean, printable summary of your journal, cycle, and history — ready in seconds.",
+  "insightSuffixMenstruates": "was what you logged most often over this period.",
+  "featureTimelineBold": "History & relief timeline",
+  "featureTimelineDesc": "— your history entries and relief items, in date order.",
+  "featureHistoryBold": "Full history export",
+  "timelineCardLabel": "History & relief timeline",
+  "timelineCardDesc": "Your history entries and relief items, in the order they happened.",
+  "timelineSurgeriesLabel": "History",
+  "timelineNoSurgeries": "Nothing added yet — add entries in the Profile tab's History section.",
+  "recoveryNotesCount": "Notes",
+  "historyCardLabel": "Full history",
+  "historyCardDesc": "A complete printable record of everything you've logged — every day, pain level, period, relief, and note, plus your history and yearly summary. Save it as a PDF from the print screen.",
+  "historyOpenBtn": "Open full history",
+  "historyTitle": "Endo Things — Full History",
+  "historyAppointmentLabel": "Plans",
+  "historySurgeryPlannedLabel": "Big day",
+  "historyRecoveryLabel": "Notes",
+  "rptProcedureCol": "Entry",
+  "rptUpcomingLabel": "Upcoming plans",
+  "rptFindingsLabel": "Key points",
+  "rptQuestionsLabel": "Notes & questions",
+  "reportTitle": "Endo Things — Summary",
+  "reportStageLabel": "Stage",
+  "reportSurgicalHistoryLabel": "History",
+  "reportConditionsLabel": "What you track",
+  "contactsLabel": "Important contacts",
+  "contactsDesc": "",
+  "noContactsNote": "No contacts yet.",
+  "contactNamePh": "e.g. Jamie",
+  "contactNotesPh": "Anything worth remembering…"
+ },
+ "es": {
+  "privacyNote": "Endo Things valora tu confianza por encima de todo. Cada fecha de ciclo, registro y nota se guarda 100% en este dispositivo y nunca se sube, rastrea ni vende a terceros.",
+  "calendarSubtitle": "Tu espacio tranquilo para el día a día.",
+  "logApptButton": "Añadir planes",
+  "medicalApptLabel": "Planes",
+  "medicalApptSub": "Algo en el calendario para esta fecha",
+  "apptDetailsLabel": "Detalles del plan",
+  "scheduledSurgeryLabel": "Día importante",
+  "scheduledSurgerySub": "Marca una fecha importante próxima",
+  "surgeryDetailsLabel": "Detalles",
+  "surgeryPlaceholder": "ej. Qué pasa, 7am",
+  "allergiesNote": "Se muestra en tu resumen para tenerlo siempre a mano.",
+  "endoStageLabel": "Etapa (opcional)",
+  "endoStageNote": "Solo para tu propia referencia.",
+  "myConditionsLabel": "Lo que registras",
+  "surgeriesTitle": "Historial",
+  "surgeriesSubtitle": "Guarda un registro de eventos pasados importantes y cómo te sentiste después.",
+  "addSurgeryBtn": "+ Añadir al historial",
+  "noSurgeriesNote": "Aún no hay nada en tu historial.",
+  "healingLogLabel": "Cómo te sentiste después",
+  "noRecoveryNotesNote": "Aún no hay notas.",
+  "addRecoveryNoteBtn": "Añadir nota",
+  "recoveryNoteAddedToast": "Nota añadida",
+  "surgeryRemovedToast": "Entrada eliminada",
+  "deleteSurgeryConfirm": "¿Eliminar esta entrada? No se puede deshacer.",
+  "editSurgeryTitle": "Editar entrada",
+  "addSurgeryTitle": "Añadir al historial",
+  "surgeryNotesPlaceholder": "Qué pasó, cualquier cosa que valga la pena recordar",
+  "saveSurgeryBtn": "Guardar",
+  "surgeryUpdatedToast": "Entrada actualizada",
+  "surgerySavedToast": "Entrada guardada",
+  "historyEntryLabel": "Entrada del historial",
+  "doctorVisitSummaryLabel": "Resumen rápido",
+  "doctorVisitSummaryNote": "Un resumen sencillo de tus últimos 90 días.",
+  "plannerDescription": "Un planificador complementario imprimible/digital de 14 páginas — registros semanales y más.",
+  "featureDoctorReportBold": "Resumen imprimible",
+  "featureDoctorReportDesc": "— un resumen limpio e imprimible de tu diario, ciclo e historial.",
+  "doctorReportCardLabel": "Resumen imprimible",
+  "doctorReportCardDesc": "Un resumen limpio e imprimible de tu diario, ciclo e historial — listo en segundos.",
+  "insightSuffixMenstruates": "fue lo que más registraste durante este período.",
+  "featureTimelineBold": "Cronología de historial y alivio",
+  "featureTimelineDesc": "— tus entradas del historial y elementos de alivio, por fecha.",
+  "featureHistoryBold": "Exportación del historial completo",
+  "timelineCardLabel": "Cronología de historial y alivio",
+  "timelineCardDesc": "Tus entradas del historial y elementos de alivio, en el orden en que ocurrieron.",
+  "timelineSurgeriesLabel": "Historial",
+  "timelineNoSurgeries": "Aún no hay nada — añade entradas en la sección Historial de la pestaña Perfil.",
+  "recoveryNotesCount": "Notas",
+  "historyCardLabel": "Historial completo",
+  "historyCardDesc": "Un registro imprimible completo de todo lo que has registrado — cada día, nivel de dolor, período, alivio y nota, además de tu historial y resumen anual. Guárdalo como PDF desde la pantalla de impresión.",
+  "historyOpenBtn": "Abrir historial completo",
+  "historyTitle": "Endo Things — Historial completo",
+  "historyAppointmentLabel": "Planes",
+  "historySurgeryPlannedLabel": "Día importante",
+  "historyRecoveryLabel": "Notas",
+  "rptProcedureCol": "Entrada",
+  "rptUpcomingLabel": "Próximos planes",
+  "rptFindingsLabel": "Puntos clave",
+  "rptQuestionsLabel": "Notas y preguntas",
+  "reportTitle": "Endo Things — Resumen",
+  "reportStageLabel": "Etapa",
+  "reportSurgicalHistoryLabel": "Historial",
+  "reportConditionsLabel": "Lo que registras",
+  "contactsLabel": "Contactos importantes",
+  "contactsDesc": "",
+  "noContactsNote": "Aún no hay contactos.",
+  "contactNamePh": "ej. Jamie",
+  "contactNotesPh": "Cualquier cosa que valga la pena recordar…"
+ },
+ "fr": {
+  "privacyNote": "Endo Things accorde une importance primordiale à votre confiance. Chaque date de cycle, entrée et note est stockée à 100 % sur cet appareil et n'est jamais téléversée, suivie ni vendue à des tiers.",
+  "calendarSubtitle": "Votre espace doux, jour après jour.",
+  "logApptButton": "Ajouter des projets",
+  "medicalApptLabel": "Projets",
+  "medicalApptSub": "Quelque chose de prévu à cette date",
+  "apptDetailsLabel": "Détails du projet",
+  "scheduledSurgeryLabel": "Grand jour",
+  "scheduledSurgerySub": "Marquer une date importante à venir",
+  "surgeryDetailsLabel": "Détails",
+  "surgeryPlaceholder": "ex. Ce qui se passe, 7 h",
+  "allergiesNote": "Affiché sur votre résumé pour l'avoir toujours sous la main.",
+  "endoStageLabel": "Stade (facultatif)",
+  "endoStageNote": "Juste pour votre propre référence.",
+  "myConditionsLabel": "Ce que vous suivez",
+  "surgeriesTitle": "Historique",
+  "surgeriesSubtitle": "Gardez une trace des événements passés importants et de comment vous vous êtes senti(e) ensuite.",
+  "addSurgeryBtn": "+ Ajouter à l'historique",
+  "noSurgeriesNote": "Rien dans votre historique pour l'instant.",
+  "healingLogLabel": "Comment vous vous êtes senti(e) ensuite",
+  "noRecoveryNotesNote": "Pas encore de notes.",
+  "addRecoveryNoteBtn": "Ajouter une note",
+  "recoveryNoteAddedToast": "Note ajoutée",
+  "surgeryRemovedToast": "Entrée supprimée",
+  "deleteSurgeryConfirm": "Supprimer cette entrée ? Cette action est irréversible.",
+  "editSurgeryTitle": "Modifier l'entrée",
+  "addSurgeryTitle": "Ajouter à l'historique",
+  "surgeryNotesPlaceholder": "Ce qui s'est passé, tout ce qui mérite d'être retenu",
+  "saveSurgeryBtn": "Enregistrer",
+  "surgeryUpdatedToast": "Entrée mise à jour",
+  "surgerySavedToast": "Entrée enregistrée",
+  "historyEntryLabel": "Entrée de l'historique",
+  "doctorVisitSummaryLabel": "Résumé rapide",
+  "doctorVisitSummaryNote": "Un résumé simple de vos 90 derniers jours.",
+  "plannerDescription": "Un agenda compagnon imprimable/numérique de 14 pages — suivis hebdomadaires et plus encore.",
+  "featureDoctorReportBold": "Résumé imprimable",
+  "featureDoctorReportDesc": "— un résumé clair et imprimable de votre journal, cycle et historique.",
+  "doctorReportCardLabel": "Résumé imprimable",
+  "doctorReportCardDesc": "Un résumé clair et imprimable de votre journal, cycle et historique — prêt en quelques secondes.",
+  "insightSuffixMenstruates": "est ce que vous avez le plus enregistré pendant cette période.",
+  "featureTimelineBold": "Chronologie de l'historique et du soulagement",
+  "featureTimelineDesc": "— vos entrées d'historique et éléments de soulagement, par ordre de date.",
+  "featureHistoryBold": "Exportation de l'historique complet",
+  "timelineCardLabel": "Chronologie de l'historique et du soulagement",
+  "timelineCardDesc": "Vos entrées d'historique et éléments de soulagement, dans l'ordre où ils sont arrivés.",
+  "timelineSurgeriesLabel": "Historique",
+  "timelineNoSurgeries": "Rien d'ajouté pour l'instant — ajoutez des entrées dans la section Historique de l'onglet Profil.",
+  "recoveryNotesCount": "Notes",
+  "historyCardLabel": "Historique complet",
+  "historyCardDesc": "Un registre imprimable complet de tout ce que vous avez enregistré — chaque jour, niveau de douleur, règles, soulagement et note, plus votre historique et votre résumé annuel. Enregistrez-le en PDF depuis l'écran d'impression.",
+  "historyOpenBtn": "Ouvrir l'historique complet",
+  "historyTitle": "Endo Things — Historique complet",
+  "historyAppointmentLabel": "Projets",
+  "historySurgeryPlannedLabel": "Grand jour",
+  "historyRecoveryLabel": "Notes",
+  "rptProcedureCol": "Entrée",
+  "rptUpcomingLabel": "Projets à venir",
+  "rptFindingsLabel": "Points clés",
+  "rptQuestionsLabel": "Notes et questions",
+  "reportTitle": "Endo Things — Résumé",
+  "reportStageLabel": "Stade",
+  "reportSurgicalHistoryLabel": "Historique",
+  "reportConditionsLabel": "Ce que vous suivez",
+  "contactsLabel": "Contacts importants",
+  "contactsDesc": "",
+  "noContactsNote": "Pas encore de contacts.",
+  "contactNamePh": "ex. Jamie",
+  "contactNotesPh": "Tout ce qui mérite d'être retenu…"
+ },
+ "de": {
+  "privacyNote": "Endo Things legt größten Wert auf dein Vertrauen. Jedes erfasste Zyklusdatum, jeder Eintrag und jede Notiz wird zu 100 % lokal auf diesem Gerät gespeichert und niemals hochgeladen, verfolgt oder an Dritte verkauft.",
+  "calendarSubtitle": "Dein sanfter Ort für jeden Tag.",
+  "logApptButton": "Pläne hinzufügen",
+  "medicalApptLabel": "Pläne",
+  "medicalApptSub": "Etwas im Kalender für dieses Datum",
+  "apptDetailsLabel": "Details zum Plan",
+  "scheduledSurgeryLabel": "Großer Tag",
+  "scheduledSurgerySub": "Ein wichtiges bevorstehendes Datum markieren",
+  "surgeryDetailsLabel": "Details",
+  "surgeryPlaceholder": "z. B. Was ansteht, 7 Uhr",
+  "allergiesNote": "Wird in deiner Zusammenfassung angezeigt, damit du es immer griffbereit hast.",
+  "endoStageLabel": "Stadium (optional)",
+  "endoStageNote": "Nur für deine eigene Übersicht.",
+  "myConditionsLabel": "Was du erfasst",
+  "surgeriesTitle": "Verlauf",
+  "surgeriesSubtitle": "Halte wichtige vergangene Ereignisse fest und wie du dich danach gefühlt hast.",
+  "addSurgeryBtn": "+ Zum Verlauf hinzufügen",
+  "noSurgeriesNote": "Noch nichts in deinem Verlauf.",
+  "healingLogLabel": "Wie du dich danach gefühlt hast",
+  "noRecoveryNotesNote": "Noch keine Notizen.",
+  "addRecoveryNoteBtn": "Notiz hinzufügen",
+  "recoveryNoteAddedToast": "Notiz hinzugefügt",
+  "surgeryRemovedToast": "Eintrag entfernt",
+  "deleteSurgeryConfirm": "Diesen Eintrag löschen? Das kann nicht rückgängig gemacht werden.",
+  "editSurgeryTitle": "Eintrag bearbeiten",
+  "addSurgeryTitle": "Zum Verlauf hinzufügen",
+  "surgeryNotesPlaceholder": "Was passiert ist, alles, was du dir merken willst",
+  "saveSurgeryBtn": "Speichern",
+  "surgeryUpdatedToast": "Eintrag aktualisiert",
+  "surgerySavedToast": "Eintrag gespeichert",
+  "historyEntryLabel": "Verlaufseintrag",
+  "doctorVisitSummaryLabel": "Kurze Zusammenfassung",
+  "doctorVisitSummaryNote": "Eine einfache Zusammenfassung deiner letzten 90 Tage.",
+  "plannerDescription": "Ein 14-seitiger druckbarer/digitaler Begleitplaner — wöchentliche Tracker und mehr.",
+  "featureDoctorReportBold": "Druckbare Zusammenfassung",
+  "featureDoctorReportDesc": "— eine übersichtliche, druckbare Zusammenfassung deines Tagebuchs, Zyklus und Verlaufs.",
+  "doctorReportCardLabel": "Druckbare Zusammenfassung",
+  "doctorReportCardDesc": "Eine übersichtliche, druckbare Zusammenfassung deines Tagebuchs, Zyklus und Verlaufs — in Sekunden fertig.",
+  "insightSuffixMenstruates": "hast du in diesem Zeitraum am häufigsten erfasst.",
+  "featureTimelineBold": "Verlaufs- und Linderungs-Zeitleiste",
+  "featureTimelineDesc": "— deine Verlaufseinträge und Linderungsmittel, nach Datum sortiert.",
+  "featureHistoryBold": "Export des gesamten Verlaufs",
+  "timelineCardLabel": "Verlaufs- und Linderungs-Zeitleiste",
+  "timelineCardDesc": "Deine Verlaufseinträge und Linderungsmittel in der Reihenfolge, in der sie passiert sind.",
+  "timelineSurgeriesLabel": "Verlauf",
+  "timelineNoSurgeries": "Noch nichts hinzugefügt — füge Einträge im Bereich Verlauf im Profil-Tab hinzu.",
+  "recoveryNotesCount": "Notizen",
+  "historyCardLabel": "Gesamter Verlauf",
+  "historyCardDesc": "Ein vollständiger druckbarer Überblick über alles, was du erfasst hast — jeder Tag, Schmerzwert, jede Periode, Linderung und Notiz, dazu dein Verlauf und deine Jahresübersicht. Speichere ihn im Druckfenster als PDF.",
+  "historyOpenBtn": "Gesamten Verlauf öffnen",
+  "historyTitle": "Endo Things — Gesamter Verlauf",
+  "historyAppointmentLabel": "Pläne",
+  "historySurgeryPlannedLabel": "Großer Tag",
+  "historyRecoveryLabel": "Notizen",
+  "rptProcedureCol": "Eintrag",
+  "rptUpcomingLabel": "Anstehende Pläne",
+  "rptFindingsLabel": "Wichtige Punkte",
+  "rptQuestionsLabel": "Notizen & Fragen",
+  "reportTitle": "Endo Things — Zusammenfassung",
+  "reportStageLabel": "Stadium",
+  "reportSurgicalHistoryLabel": "Verlauf",
+  "reportConditionsLabel": "Was du erfasst",
+  "contactsLabel": "Wichtige Kontakte",
+  "contactsDesc": "",
+  "noContactsNote": "Noch keine Kontakte.",
+  "contactNamePh": "z. B. Jamie",
+  "contactNotesPh": "Alles, was du dir merken willst…"
+ }
+};
+for (const _l of Object.keys(PLAY_OVERRIDES)) Object.assign(PLAY_OVERRIDES[_l], PLAY_UPDATES[_l]);
+const PLAY_XLATE = {"Menopause (surgical)": {"en": "Menopause", "es": "Menopausia", "fr": "Ménopause", "de": "Menopause"}, "Menopause (natural)": {"en": "Menopause", "es": "Menopausia", "fr": "Ménopause", "de": "Menopause"}, "Menopause": {"en": "Menopause", "es": "Menopausia", "fr": "Ménopause", "de": "Menopause"}};
+
 function t(key) {
   const lang = (state.settings && state.settings.language) || "en";
+  if (isPlayVersion()) {
+    const po = PLAY_OVERRIDES[lang] || PLAY_OVERRIDES.en;
+    if (Object.prototype.hasOwnProperty.call(po, key)) return po[key];
+  }
   return (translations[lang] && translations[lang][key]) || translations.en[key] || key;
 }
 
@@ -3072,8 +3444,21 @@ function t(key) {
 // STORED value must always stay the original English word — only the on-screen
 // label changes with language. This keeps old logged entries (saved in English)
 // matching correctly no matter what language the app is displayed in later.
+// Play version menopause choices: the old "natural"/"surgical" values still show as
+// "Menopause" (and stay saved as they were); people can add their own wording.
+function menopauseChipsPlay() {
+  const cur = state.settings.menopauseStatus || "Not applicable";
+  const base = ["Not applicable", "Perimenopause", "Menopause"];
+  const custom = state.settings.customMenopauseStatuses || [];
+  const isActive = (m) => cur === m || (m === "Menopause" && /^Menopause \(/.test(cur));
+  return base.map(m => `<div class="chip${isActive(m) ? ' active' : ''}" data-m="${m}">${xlate(MENOPAUSE_LABELS, m)}</div>`).join("")
+    + custom.map(m => `<div class="chip${cur === m ? ' active' : ''}" data-m="${escapeHtml(m)}">${escapeHtml(m)}</div>`).join("")
+    + `<div class="chip" id="addMenopauseChip">${t("addMenopauseChip")}</div>`;
+}
+
 function xlate(dict, englishKey) {
   const lang = (state.settings && state.settings.language) || "en";
+  if (isPlayVersion() && PLAY_XLATE[englishKey]) return PLAY_XLATE[englishKey][lang] || PLAY_XLATE[englishKey].en;
   if (lang === "en") return englishKey;
   const row = dict[englishKey];
   return (row && row[lang]) || englishKey;
@@ -3307,6 +3692,8 @@ function iconDoubleHeart() {
   return `<svg viewBox="0 0 20 14" width="20" height="15"><path d="${h}" fill="currentColor" transform="translate(0,3) scale(0.8)"/><path d="${h}" fill="currentColor" transform="translate(8,0)"/></svg>`;
 }
 function iconPill() { return `<svg viewBox="0 0 24 24" width="13" height="13"><rect x="3" y="9" width="18" height="6" rx="3" fill="currentColor" transform="rotate(-45 12 12)"/><line x1="12" y1="6.5" x2="12" y2="17.5" stroke="var(--bg-elevated)" stroke-width="1.4" transform="rotate(-45 12 12)"/></svg>`; }
+function iconCalendarSmall() { return `<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>`; }
+function iconSparkle() { return `<svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor"><path d="M12 2c.6 4.6 2.4 6.9 7 8-4.6 1.1-6.4 3.4-7 8-.6-4.6-2.4-6.9-7-8 4.6-1.1 6.4-3.4 7-8z"/></svg>`; }
 function iconMedical() { return `<svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor"><path d="M9 3h6v6h6v6h-6v6H9v-6H3V9h6z"/></svg>`; }
 function iconPeriodDrop() { return `<svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor"><path d="M12 2c4 5.2 7 9.4 7 13a7 7 0 1 1-14 0c0-3.6 3-7.8 7-13z"/></svg>`; }
 
@@ -3518,7 +3905,7 @@ async function renderCalendar(main) {
       <div class="item"><span class="swatch" style="background:rgba(108, 92, 231, 0.35);"></span>${t("legendOvulation")}</div>
       ` : ''}
     </div>
-    <button class="btn secondary small" id="logApptBtn" style="margin-top:14px; display:flex; align-items:center; justify-content:center; gap:8px;">${iconMedical()} ${t("logApptButton")}</button>
+    <button class="btn secondary small" id="logApptBtn" style="margin-top:14px; display:flex; align-items:center; justify-content:center; gap:8px;">${isPlayVersion() ? iconCalendarSmall() : iconMedical()} ${t("logApptButton")}</button>
     ${state.settings.menstruates ? `<p class="section-sub" id="menstrualNoteLink" style="margin-top:8px; margin-bottom:0; text-align:center; text-decoration:underline; cursor:pointer;">${t("menstrualTrackingNote")}</p>` : ''}
     ${state.settings.menstruates ? renderCycleCard(cycleStats) : ''}
     </div>
@@ -3658,7 +4045,7 @@ async function openDayModal(dateKey, focusAppointment) {
 
       <div class="toggle-row" style="border:none;">
         <div style="display:flex; align-items:center; gap:8px;">
-          <span style="color:var(--pill-color);">${iconPill()}</span>
+          <span style="color:var(--pill-color);">${isPlayVersion() ? iconSparkle() : iconPill()}</span>
           <div>
             <div class="label-main">${t("medicationLabel")}</div>
             <div class="label-sub">${t("medicationSub")}</div>
@@ -3679,7 +4066,7 @@ async function openDayModal(dateKey, focusAppointment) {
 
       <div class="toggle-row" style="border:none;">
         <div style="display:flex; align-items:center; gap:8px;">
-          <span style="color:var(--appt-color);">${iconMedical()}</span>
+          <span style="color:var(--appt-color);">${isPlayVersion() ? iconCalendarSmall() : iconMedical()}</span>
           <div>
             <div class="label-main">${t("medicalApptLabel")}</div>
             <div class="label-sub">${t("medicalApptSub")}</div>
@@ -3692,7 +4079,7 @@ async function openDayModal(dateKey, focusAppointment) {
         <input type="text" id="apptNoteField" value="${entry.appointmentNote || ''}" placeholder="${t("apptPlaceholder")}">
       </div>
 
-      <div class="toggle-row" style="border:none;">
+      <div class="toggle-row" style="border:none;${isPlayVersion() ? ' display:none;' : ''}">
         <div style="display:flex; align-items:center; gap:8px;">
           <span style="color:var(--surgery-color);">${iconMedicalAlert()}</span>
           <div>
@@ -3702,7 +4089,7 @@ async function openDayModal(dateKey, focusAppointment) {
         </div>
         <div class="switch ${entry.surgeryScheduled ? 'on' : ''}" id="surgeryToggle"><div class="knob"></div></div>
       </div>
-      <div id="surgeryNoteSection" style="${entry.surgeryScheduled ? '' : 'display:none;'}">
+      <div id="surgeryNoteSection" style="${(entry.surgeryScheduled && !isPlayVersion()) ? '' : 'display:none;'}">
         <span class="field-label">${t("surgeryDetailsLabel")}</span>
         <input type="text" id="surgeryNoteField" value="${entry.surgeryNote || ''}" placeholder="${t("surgeryPlaceholder")}">
       </div>
@@ -4400,7 +4787,7 @@ async function renderSurgeries(main) {
       <div class="card">
         <div style="display:flex; justify-content:space-between; align-items:flex-start;">
           <div>
-            <div style="font-weight:700; font-size:15px;">${(s.types && s.types.length) ? s.types.map(ty => xlate(SURGERY_LABELS, ty)).join(", ") : (s.type ? xlate(SURGERY_LABELS, s.type) : "")}</div>
+            <div style="font-weight:700; font-size:15px;">${surgeryTypesLabel(s)}</div>
             <div style="color:var(--text-dim); font-size:12.5px; margin-top:2px;">${s.date || t("noDateSetLabel")}</div>
           </div>
           <button class="btn secondary small" data-expand="${id}">${state.expandedSurgery===id ? t("closeBtn") : t("viewBtn")}</button>
@@ -4491,10 +4878,12 @@ function openSurgeryModal(editId) {
       <button class="modal-close">✕</button>
       <h2 class="section-title">${existing ? t("editSurgeryTitle") : t("addSurgeryTitle")}</h2>
 
+      <div style="${isPlayVersion() ? "display:none;" : ""}">
       <span class="field-label">${t("surgeryTypeLabel")}</span>
       <p class="section-sub" style="margin-top:-6px;">${t("surgeryTypeNote")}</p>
       <div class="chip-row" id="surgTypeChips">
         ${SURGERY_TYPES.map(ty => `<div class="chip${existing && existing.types && existing.types.includes(ty) ? ' active' : ''}" data-t="${ty}">${xlate(SURGERY_LABELS, ty)}</div>`).join("")}
+      </div>
       </div>
 
       <span class="field-label">${t("surgeryDateLabel")}</span>
@@ -4703,12 +5092,12 @@ async function renderStats(main) {
         <span class="field-label" style="margin:0;">${t("contactsLabel")}</span>
         <button class="btn secondary small" id="addContactBtn">+ ${t("addContactBtn")}</button>
       </div>
-      <p class="section-sub" style="margin-top:8px;">${t("contactsDesc")}</p>
+      ${t("contactsDesc") ? `<p class="section-sub" style="margin-top:8px;">${t("contactsDesc")}</p>` : `<div style="height:8px;"></div>`}
       ${contactList.length === 0 ? `<div class="empty-note" style="margin-bottom:0;">${t("noContactsNote")}</div>` : contactList.map(([id, c]) => `
         <div class="contact-row">
           <div class="contact-main" data-editcontact="${id}">
             <div style="font-weight:700; font-size:15px;">${escHtml(c.name)}</div>
-            <div style="color:var(--text-dim); font-size:12.5px; margin-top:2px;">${escHtml([xlate(CONTACT_ROLE_LABELS, c.role || "Other"), c.clinic].filter(Boolean).join(" · "))}</div>
+            ${isPlayVersion() ? "" : `<div style="color:var(--text-dim); font-size:12.5px; margin-top:2px;">${escHtml([xlate(CONTACT_ROLE_LABELS, c.role || "Other"), c.clinic].filter(Boolean).join(" · "))}</div>`}
             ${c.phone ? `<div style="font-size:13px; margin-top:4px;">${escHtml(c.phone)}</div>` : ""}
           </div>
           <div class="contact-actions">
@@ -4725,12 +5114,12 @@ async function renderStats(main) {
       <button class="btn secondary small" id="exportBtn">${t("copySummaryBtn")}</button>
     </div>
 
-    <div class="card">
+    ${isPlayVersion() ? "" : `<div class="card">
       <span class="field-label">${t("resourcesLabel")}</span>
       <p class="section-sub">${t("resourcesSub")}</p>
       <a href="${state.settings.language === 'es' ? 'https://www.mayoclinic.org/es/diseases-conditions/endometriosis/symptoms-causes/syc-20354656' : 'https://www.mayoclinic.org/diseases-conditions/endometriosis/symptoms-causes/syc-20354656'}" target="_blank" rel="noopener" style="display:block; padding:10px 0; border-bottom:1px solid var(--border); color:var(--accent); font-weight:700; text-decoration:none;">${t("resourceMayoLinkText")}</a>
       <a href="https://endometriosisnetwork.com/" target="_blank" rel="noopener" style="display:block; padding:10px 0; color:var(--accent); font-weight:700; text-decoration:none;">${t("resourceEndoNetworkLinkText")}</a>
-    </div>
+    </div>`}
 
   `;
 
@@ -4803,11 +5192,13 @@ function openContactModal(editId, contacts) {
       <button class="modal-close">✕</button>
       <h2 class="section-title">${c ? t("editContactTitle") : t("addContactBtn")}</h2>
       ${field("ctName", "contactNameLabel", c && c.name, "text", "contactNamePh")}
+      <div style="${isPlayVersion() ? "display:none;" : ""}">
       <span class="field-label">${t("contactRoleLabel")}</span>
       <div class="chip-row" id="ctRoles">
         ${CONTACT_ROLES.map(r => `<div class="chip${r === role ? " active" : ""}" data-role="${r}">${xlate(CONTACT_ROLE_LABELS, r)}</div>`).join("")}
       </div>
       ${field("ctClinic", "contactClinicLabel", c && c.clinic)}
+      </div>
       ${field("ctPhone", "contactPhoneLabel", c && c.phone, "tel")}
       ${field("ctEmail", "contactEmailLabel", c && c.email, "email")}
       ${field("ctAddress", "contactAddressLabel", c && c.address)}
@@ -5386,6 +5777,7 @@ function surgeryDateText(s, fallback) {
 }
 
 function surgeryTypesLabel(s) {
+  if (isPlayVersion()) return t("historyEntryLabel");
   const types = (s.types && s.types.length) ? s.types : (s.type ? [s.type] : ["Other"]);
   return types.map(ty => xlate(SURGERY_LABELS, ty)).join(", ");
 }
@@ -5871,8 +6263,12 @@ function renderSettingsView(main) {
       <div style="margin-top:14px;">
         <span class="field-label">${t("menopauseStatusLabel")}</span>
         <div class="chip-row" id="menopauseChips">
-          ${MENOPAUSE_STATUSES.map(m => `<div class="chip${state.settings.menopauseStatus===m ? ' active' : ''}" data-m="${m}">${xlate(MENOPAUSE_LABELS, m)}</div>`).join("")}
+          ${isPlayVersion() ? menopauseChipsPlay() : MENOPAUSE_STATUSES.map(m => `<div class="chip${state.settings.menopauseStatus===m ? ' active' : ''}" data-m="${m}">${xlate(MENOPAUSE_LABELS, m)}</div>`).join("")}
         </div>
+        ${isPlayVersion() ? `<div id="addMenopauseRow" style="display:none; margin-top:10px;">
+          <input type="text" id="newMenopauseField" placeholder="${escapeHtml(t("newMenopausePlaceholder"))}">
+          <button class="btn secondary small" id="saveMenopauseBtn">${t("addMenopauseBtn")}</button>
+        </div>` : ""}
       </div>
       `}
     </div>
@@ -5972,7 +6368,21 @@ function renderSettingsView(main) {
     };
   }
 
-  main.querySelectorAll("#menopauseChips .chip").forEach(chip => {
+  const addMenoChip = main.querySelector("#addMenopauseChip");
+  if (addMenoChip) {
+    addMenoChip.onclick = () => { const row = main.querySelector("#addMenopauseRow"); row.style.display = "block"; main.querySelector("#newMenopauseField").focus(); };
+    main.querySelector("#saveMenopauseBtn").onclick = async () => {
+      const val = main.querySelector("#newMenopauseField").value.trim();
+      if (!val) return;
+      const list = state.settings.customMenopauseStatuses || [];
+      if (!list.includes(val)) list.push(val);
+      state.settings.customMenopauseStatuses = list;
+      state.settings.menopauseStatus = val;
+      await saveSettings();
+      render();
+    };
+  }
+  main.querySelectorAll("#menopauseChips .chip[data-m]").forEach(chip => {
     chip.onclick = async () => {
       state.settings.menopauseStatus = chip.dataset.m;
       await saveSettings();
